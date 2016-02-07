@@ -10,6 +10,25 @@ var users = require('./routes/users');
 
 var app = express();
 
+//Postgres connector
+var pg = require('pg');
+var conString = "postgres://postgres:postgres@localhost/postgres";
+
+pg.connect(conString, function(err, client, done){
+  if(err){
+    return console.error('error fetching client from pool', err);
+  }
+  client.query('SELECT * from "Tabla1"',function (err, result){
+    done();
+    if(err){
+      return console.error('error running query', err);
+    }
+    for (var i = result.rows.length - 1; i >= 0; i--) {
+      console.log(result.rows[i]);
+    };
+  })
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
