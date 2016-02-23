@@ -12,19 +12,19 @@ var app = express();
 
 //Postgres connector
 var pg = require('pg');
-var conString = "postgres://postgres:postgres@localhost/postgres";
+var conString = "postgres://postgres:postgres@localhost/postgis";
 
 pg.connect(conString, function(err, client, done){
   if(err){
     return console.error('error fetching client from pool', err);
   }
-  client.query('SELECT * from "Tabla1"',function (err, result){
+  client.query('SELECT * from "spatial_ref_sys"',function (err, result){
     done();
     if(err){
       return console.error('error running query', err);
     }
     for (var i = result.rows.length - 1; i >= 0; i--) {
-      console.log(result.rows[i]);
+      //console.log(result.rows[i]);
     };
   })
 });
