@@ -1,6 +1,11 @@
 extends layout
 
 block content
-	#map
+	header
+		img(src='/images/favicon.png')
+		input(type='text', placeholder='Buscar', list='lFac')
+		datalist#lFac
+	main
+		#map
 	script(type='text/javascript', src='/javascripts/main.js')
 	
