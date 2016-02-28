@@ -3,9 +3,13 @@ extends layout
 block content
 	header
 		img(src='/images/favicon.png')
-		input(type='text', placeholder='Buscar', list='lFac')
+		input(type='text', placeholder='Buscar', oninput='inputSelected(this)', id='search' list='lFac')
 		datalist#lFac
 	main
-		#map
+		section#info
+			button(onclick="closeDescr()")
+				&#10006;
+			article
+		section#map
 	script(type='text/javascript', src='/javascripts/main.js')
 	

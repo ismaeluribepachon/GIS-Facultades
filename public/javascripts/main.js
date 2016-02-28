@@ -2,6 +2,7 @@ MB_ATTR = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> 
 MB_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 var map;
 var posicion;
+var route;
 
 geolocation();
 
@@ -16,8 +17,6 @@ function geolocation(){
 
 function showPosition(position){
 	posicion = {lat: position.coords.latitude, lng: position.coords.longitude};
-	console.log("latitud: "+position.coords.latitude);
-	console.log("longitud: "+position.coords.longitude);
 	map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 18);
 	L.tileLayer(MB_URL, {
 		attribution: MB_ATTR,
@@ -62,13 +61,25 @@ function errorPosition(err){
 	showPosition(position);
 }
 
-function generateRoute(a, b){
-	L.Routing.control({
-		waypoints: [
-			L.latLng(a.lat, a.lon),
-			L.latLng(b.lat, b.lon)
-		]
-	}).addTo(map);
+function generateRoute(id){
+	if(route != undefined){
+		map.removeControl(route);
+	}
+	ajax({
+		url: "api/facultad",
+		data: {id: id},
+		method: "GET",
+		ready: function(response){
+			response = JSON.parse(response);
+			route = L.Routing.control({
+				waypoints: [
+					L.latLng(posicion.lat, posicion.lng),
+					L.latLng(response.y, response.x)
+				]
+			}).addTo(map);
+		}
+	});
+	closeDescr();
 }
 
 function addPoint(lat, lon, id){
@@ -80,10 +91,10 @@ function addPoint(lat, lon, id){
 			data: {id: event.target.options.alt},
 			method: "GET",
 			ready: function(response){
-				console.log(response);
+				console.log(JSON.parse(response));
+				openDescr(JSON.parse(response), id);
 			}
 		});
-		console.log(event.target);
 	});
 	marker.addTo(map);
 }
@@ -110,4 +121,37 @@ function ajax(obj){
 
 	xhttp.open(obj.method, url, true);
 	xhttp.send();
+}
+
+function openDescr(pointInfo, id){
+	var info = document.querySelector("#info");
+	var map = document.querySelector("#map");
+	info.style.width = "400px";
+	map.style.width = "calc(100% - 400px)";
+	var article = info.querySelector("article");
+	article.innerHTML = "<button title=\"Como llegar\" onclick=\"generateRoute('"+id+"')\"></button><img src=\""+pointInfo.image+"\"><h2>"+pointInfo.name+"</h2><p>"+pointInfo.description+"</p>";
+}
+
+function closeDescr(){
+	var info = document.querySelector("#info");
+	var map = document.querySelector("#map");
+	info.style.width = "0px";
+	map.style.width = "100%";
+}
+
+function inputSelected(input){
+	var opt = document.querySelector('#lFac>option[value="'+input.value+'"]');
+	if(opt){
+		ajax({
+			url: "api/facultad",
+			data: {id: opt.text},
+			method: "GET",
+			ready: function(response){
+				response = JSON.parse(response);
+				openDescr(response, opt.text);
+				map.setView([response.y, response.x]);
+
+			}
+		});
+	}
 }

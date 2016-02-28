@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
 *{
 	border: 0;
 	margin: 0;
@@ -6,7 +8,7 @@
 }
 
 body {
-	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	font-family: 'Roboto', sans-serif;
 }
 
 main{
@@ -15,14 +17,83 @@ main{
 	position: absolute;
 	top: 80px;
 	left: 0;
+	display: inline-flex;
 }
 
 #map{
 	position: absolute;
 	top: 0;
-	left: 0;
+	right: 0;
 	width: 100%;
 	height: 100%;
+	transition: 0.5s ease-in-out;
+	-webkit-transition: 0.5s ease-in-out;
+	-moz-transition: 0.5s ease-in-out;
+	-o-transition: 0.5s ease-in-out;
+	-ms-transition: 0.5s ease-in-out;
+}
+
+#info{
+	position:relative;
+	background-color: #ececec;
+	z-index: 10;
+	height: 100%;
+	overflow: hidden;
+	transition: 0.5s ease-in-out;
+	-webkit-transition: 0.5s ease-in-out;
+	-moz-transition: 0.5s ease-in-out;
+	-o-transition: 0.5s ease-in-out;
+	-ms-transition: 0.5s ease-in-out;
+}
+
+#info>button{
+	background-color: transparent;
+	position: absolute;
+	right: 30px;
+	top: 30px;
+	cursor: pointer;
+	color: #fff;
+	text-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+}
+
+#info article{
+	height: 100%;
+	overflow: auto;
+}
+
+#info article>button{
+	display: block;
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 40px;
+	height: 40px;
+	background-color: #2979FF;
+	color: #ececec;
+	border-radius: 2px;
+	padding: 7px;
+	border: 1px solid #2962FF;
+	cursor: pointer;
+	background-image: url("marker.svg");
+	background-repeat: no-repeat;
+	background-size: 30px;
+	background-position: center center;
+
+}
+
+
+
+#info article h2, #info article p{
+	padding: 20px;
+}
+
+#info article img{
+	width: 100%;
+}
+
+a{
+	text-decoration: none;
+	color: #2979FF;
 }
 
 header{
@@ -31,7 +102,7 @@ header{
 	left: 0;
 	width: 100%;
 	height: 80px;
-	background-color: #ececec;
+	background-color: #2979FF;
 	display: flex;
 	justify-content: center;
 	line-height: 80px;
@@ -46,13 +117,13 @@ header>img{
 
 header>input{
 	font-size: 18px;
-	color: #555;
+	color: #ececec;
 	height: 40px;
 	max-width: 1000px;
-	background-color: #ececec;
+	background-color: transparent;
 	position: relative;
 	top: 20px;
-	border-bottom: 2px solid #ddd;
+	border-bottom: 2px solid #bbb;
 	margin-right: 20px;
 	flex-grow: 1;
 	transition: 0.3s ease-in-out;
@@ -62,7 +133,23 @@ header>input{
 	-ms-transition: 0.3s ease-in-out;
 }
 
+::-webkit-input-placeholder { 
+	color: #eee; 
+}
+
+:-moz-placeholder { 
+	color: #eee; 
+}
+
+::-moz-placeholder { 
+	color: #eee; 
+}
+
+:-ms-input-placeholder { 
+	color: #eee; 
+}
+
 header>input:focus{
-	border-bottom: 2px solid #bbb;
+	border-bottom: 2px solid #eee;
 }
 
