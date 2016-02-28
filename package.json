@@ -1,6 +1,6 @@
 {
   "name": "pecl1",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "PECL1 para modelos avanzados de bases de datos",
   "main": "app.js",
   "private": true,
